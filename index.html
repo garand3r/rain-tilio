@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CafeQueue | Art Museum Cafe System</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4e8dc;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .card {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    h1 { text-align: center; }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px;
+      background: #7b4f2c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover { opacity: 0.9; }
+
+    .logout-btn {
+      background: #444;
+      margin-bottom: 10px;
+    }
+
+    .visitor {
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+      background: #fafafa;
+      border-left: 5px solid #7b4f2c;
+    }
+
+    .timeout {
+      background: #ffd6d6;
+      border-left: 5px solid red;
+    }
+
+    .hidden { display: none; }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>CafeQueue</h1>
+
+    <!-- LOGIN -->
+    <div id="loginCard" class="card">
+      <h3>Admin Login</h3>
+      <input type="password" id="adminPass" placeholder="Enter Admin Password" />
+      <button onclick="login()">Login</button>
+    </div>
+
+    <!-- SYSTEM -->
+    <div id="systemArea" class="hidden">
+      <button class="logout-btn" onclick="logout()">Logout</button>
+
+      <!-- REGISTER -->
+      <div class="card">
+        <h3>Issue Visitor Pass</h3>
+        <input type="text" id="name" placeholder="Visitor Name" />
+        <select id="zone">
+          <option>AADT Photobooth</option>
+          <option>Research Showcase</option>
+          <option>Robot Showcase</option>
+          <option>Art Gallery North</option>
+          <option>Art Gallery South</option>
+          <option>Booth 1</option>
+          <option>Booth 2</option>
+          <option>ABM Booth</option>
+          <option>Tables Left</option>
+          <option>Tables Right</option>
+        </select>
+        <button onclick="registerVisitor()">Register & Print Receipt</button>
+      </div>
+
+      <!-- ADMIN PANEL -->
+      <div class="card">
+        <h3>Admin Panel</h3>
+        <button onclick="exportCSV()">Export CSV Report</button>
+        <div id="visitors"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript file -->
+  <script src="app.js"></script>
+</body>
+</html>
