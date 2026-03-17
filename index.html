@@ -6,12 +6,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>CafeQueue | Art Museum Cafe System</title>
+<title>CafeQueue | Art Museum Cafe</title>
 
 <style>
 
 body{
-font-family: Arial, sans-serif;
+font-family:Arial, sans-serif;
 background:#f4e8dc;
 padding:30px;
 }
@@ -22,16 +22,14 @@ margin:auto;
 }
 
 .card{
-background:#ffffff;
+background:#fff;
 padding:20px;
 border-radius:12px;
 box-shadow:0 4px 15px rgba(0,0,0,0.1);
 margin-bottom:20px;
 }
 
-h1{
-text-align:center;
-}
+h1{text-align:center;}
 
 input,select{
 width:100%;
@@ -48,9 +46,7 @@ border-radius:6px;
 cursor:pointer;
 }
 
-button:hover{
-opacity:0.9;
-}
+button:hover{opacity:0.9;}
 
 .logout-btn{
 background:#444;
@@ -70,8 +66,75 @@ background:#ffd6d6;
 border-left:5px solid red;
 }
 
-.hidden{
+.hidden{display:none;}
+
+#line{
+border-top:1px dashed black;
+margin:4px 0;
+}
+
+/* RECEIPT */
+
+#receiptModal{
 display:none;
+}
+
+.receipt{
+width:54mm;
+padding:2mm;
+font-family:monospace;
+font-size:11px;
+text-align:center;
+}
+
+/* PRINT SETTINGS */
+
+@media print {
+
+@page{
+size:58mm auto;
+margin:0;
+}
+
+html,body{
+width:58mm;
+margin:0;
+padding:0;
+font-family:monospace;
+font-size:11px;
+}
+
+/* hide everything */
+
+body *{
+visibility:hidden;
+}
+
+/* show receipt */
+
+#receiptModal,
+#receiptModal *{
+visibility:visible;
+}
+
+/* move receipt to top */
+
+#receiptModal{
+position:absolute;
+left:0;
+top:0;
+width:58mm;
+display:block;
+}
+
+.receipt *{
+page-break-inside:avoid;
+}
+
+button{
+display:none;
+}
+
 }
 
 </style>
@@ -102,8 +165,6 @@ display:none;
 
 <button class="logout-btn" onclick="logout()">Logout</button>
 
-<!-- REGISTER -->
-
 <div class="card">
 
 <h3>Issue Visitor Pass</h3>
@@ -125,25 +186,15 @@ display:none;
 
 </select>
 
-<button onclick="registerVisitor()">
-
-Register & Print Receipt
-
-</button>
+<button onclick="registerVisitor()">Register & Print Receipt</button>
 
 </div>
-
-<!-- ADMIN -->
 
 <div class="card">
 
 <h3>Admin Panel</h3>
 
-<button onclick="exportCSV()">
-
-Export CSV Report
-
-</button>
+<button onclick="exportCSV()">Export CSV Report</button>
 
 <div id="visitors"></div>
 
@@ -151,6 +202,12 @@ Export CSV Report
 
 </div>
 
+</div>
+
+<!-- RECEIPT -->
+
+<div id="receiptModal">
+<div class="receipt" id="receiptContent"></div>
 </div>
 
 <script src="app.js"></script>
