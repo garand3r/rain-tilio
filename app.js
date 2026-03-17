@@ -10,6 +10,7 @@ function saveData() {
 
 function login() {
   const pass = document.getElementById("adminPass").value;
+
   if (pass === ADMIN_PASSWORD) {
     loggedIn = true;
     document.getElementById("loginCard").classList.add("hidden");
@@ -44,25 +45,31 @@ function registerVisitor() {
   };
 
   visitors.push(visitor);
+
   saveData();
   printReceipt(visitor);
+
   document.getElementById("name").value = "";
+
   loadVisitors();
 }
 
 function loadVisitors() {
+
   if (!loggedIn) return;
 
   const container = document.getElementById("visitors");
   container.innerHTML = "";
 
   visitors.forEach(v => {
+
     if (!v.timedOut && Date.now() - v.startTime >= TIME_LIMIT) {
       v.timedOut = true;
     }
 
     const div = document.createElement("div");
     div.className = "visitor";
+
     if (v.timedOut) div.classList.add("timeout");
 
     const timeLeft = getTimeLeft(v.startTime);
@@ -75,56 +82,118 @@ function loadVisitors() {
     `;
 
     container.appendChild(div);
+
   });
 
   saveData();
 }
 
 function getTimeLeft(startTime) {
+
   const remaining = Math.max(TIME_LIMIT - (Date.now() - startTime), 0);
+
   const m = Math.floor(remaining / 60000);
   const s = Math.floor((remaining % 60000) / 1000);
+
   return `${m}:${s.toString().padStart(2, "0")}`;
 }
 
 function printReceipt(visitor) {
-  const receiptWindow = window.open("", "", "width=400,height=600");
+
+  const receiptWindow = window.open("", "", "width=300,height=600");
 
   receiptWindow.document.write(`
-    <html>
-      <body style="font-family:monospace;padding:20px;">
-        <h2 style="text-align:center;">CAFEQUEUE</h2>
-        -----------------------------<br>
-        Visitor: ${visitor.name}<br>
-        Zone: ${visitor.zone}<br>
-        Time Limit: 15 Minutes<br>
-        Issued: ${new Date().toLocaleString()}<br>
-        -----------------------------<br>
-        Enjoy Your Visit!
-      </body>
-    </html>
+  <html>
+  <head>
+  <title>Receipt</title>
+
+  <style>
+
+  body{
+    width:58mm;
+    margin:0;
+    padding:5px;
+    font-family: monospace;
+    font-size:12px;
+    text-align:center;
+  }
+
+  .line{
+    border-top:1px dashed black;
+    margin:5px 0;
+  }
+
+  @media print{
+    @page{
+      size:58mm auto;
+      margin:0;
+    }
+  }
+
+  </style>
+  </head>
+
+  <body>
+
+  <b>CAFEQUEUE</b><br>
+  Art Museum Cafe
+
+  <div class="line"></div>
+
+  Visitor:<br>
+  ${visitor.name}<br><br>
+
+  Zone:<br>
+  ${visitor.zone}<br><br>
+
+  Time Limit: 15 Minutes
+
+  <div class="line"></div>
+
+  Issued:<br>
+  ${new Date().toLocaleString()}
+
+  <div class="line"></div>
+
+  Enjoy Your Visit!
+
+  </body>
+  </html>
   `);
 
   receiptWindow.document.close();
-  receiptWindow.focus();
-  receiptWindow.print();
+
+  setTimeout(() => {
+    receiptWindow.print();
+    receiptWindow.close();
+  }, 300);
 }
 
 function printReceiptById(id) {
+
   const visitor = visitors.find(v => v.id === id);
-  if (visitor) printReceipt(visitor);
+
+  if (visitor) {
+    printReceipt(visitor);
+  }
 }
 
 function exportCSV() {
+
   let csv = "Name,Zone,Timed Out\n";
+
   visitors.forEach(v => {
     csv += `"${v.name}","${v.zone}","${v.timedOut}"\n`;
   });
 
   const blob = new Blob([csv], { type: "text/csv" });
+
   const link = document.createElement("a");
+
   link.href = URL.createObjectURL(blob);
+
   link.download = "CafeQueue_Report.csv";
+
   link.click();
 }
 
