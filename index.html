@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>CafeQueue | Art Museum Cafe</title>
+<title>CafeQueue | Museum Cafe</title>
 
 <style>
 
@@ -71,17 +71,26 @@ border-top:1px dashed black;
 margin:4px 0;
 }
 
-#receiptModal{display:none;}
+/* RECEIPT */
+
+#receiptModal{
+display:none;
+}
 
 .receipt{
 width:54mm;
 padding:2mm;
 font-family:monospace;
 font-size:11px;
-text-align:center;
+text-align:left;
+
+/* text wrapping */
+white-space:pre-wrap;
+word-wrap:break-word;
+overflow-wrap:break-word;
 }
 
-/* PRINT */
+/* PRINT SETTINGS */
 
 @media print {
 
@@ -131,13 +140,17 @@ display:none;
 
 <h1>CafeQueue</h1>
 
+<!-- LOGIN -->
+
 <div id="loginCard" class="card">
 
 <h3>Admin Login</h3>
-<input type="password" id="adminPass">
+<input type="password" id="adminPass" placeholder="Enter Password">
 <button onclick="login()">Login</button>
 
 </div>
+
+<!-- SYSTEM -->
 
 <div id="systemArea" class="hidden">
 
@@ -193,6 +206,8 @@ display:none;
 </div>
 
 </div>
+
+<!-- RECEIPT -->
 
 <div id="receiptModal">
 <div class="receipt" id="receiptContent"></div>
