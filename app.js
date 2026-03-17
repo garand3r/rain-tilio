@@ -4,6 +4,47 @@ const ADMIN_PASSWORD = "cafe123";
 let visitors = JSON.parse(localStorage.getItem("cafequeue_data")) || [];
 let loggedIn = false;
 
+/* BOOTH DATABASE */
+
+const booths = {
+
+"Cafe Padua":{
+sell:"Foods and drinks",
+desc:"Our booth is really amazing and made with love."
+},
+
+"Thrift and Treats":{
+sell:"Foods (snacks)",
+desc:"2020 summer nostalgia mixed with filipino culture."
+},
+
+"Museum Cafe Artspire":{
+sell:"Foods & drinks",
+desc:"Cafe with unique arts."
+},
+
+"AADT - Live photobooth":{
+sell:"Portrait drawing",
+desc:"Our booth captures the artistic essence of AADT."
+},
+
+"Art Gallery":{
+sell:"Art Display",
+desc:"Collection of creative student artworks."
+},
+
+"Research Display":{
+sell:"Student Research",
+desc:"Showcasing innovative research projects."
+},
+
+"Interactive HUB":{
+sell:"Interactive Activities",
+desc:"Fun interactive exhibits for visitors."
+}
+
+};
+
 function saveData(){
 localStorage.setItem("cafequeue_data",JSON.stringify(visitors));
 }
@@ -22,17 +63,8 @@ document.getElementById("systemArea").classList.remove("hidden");
 loadVisitors();
 
 }else{
-alert("Incorrect password");
+alert("Wrong password");
 }
-
-}
-
-function logout(){
-
-loggedIn=false;
-
-document.getElementById("systemArea").classList.add("hidden");
-document.getElementById("loginCard").classList.remove("hidden");
 
 }
 
@@ -43,17 +75,10 @@ const zone1=document.getElementById("zone1").value;
 const zone2=document.getElementById("zone2").value;
 const zone3=document.getElementById("zone3").value;
 
-if(!name){
-alert("Please enter visitor name");
-return;
-}
-
 const visitor={
 id:Date.now(),
 name,
-zone1,
-zone2,
-zone3,
+zones:[zone1,zone2,zone3],
 startTime:Date.now(),
 timedOut:false
 };
@@ -64,15 +89,11 @@ saveData();
 
 printReceipt(visitor);
 
-document.getElementById("name").value="";
-
 loadVisitors();
 
 }
 
 function loadVisitors(){
-
-if(!loggedIn)return;
 
 const container=document.getElementById("visitors");
 
@@ -84,33 +105,31 @@ if(!v.timedOut && Date.now()-v.startTime>=TIME_LIMIT){
 v.timedOut=true;
 }
 
+let zones=v.zones.filter(z=>z!=="None").join(", ");
+
 const div=document.createElement("div");
 
 div.className="visitor";
 
 if(v.timedOut)div.classList.add("timeout");
 
-const timeLeft=getTimeLeft(v.startTime);
-
-let zones=v.zone1;
-
-if(v.zone2!=="None") zones+=" , "+v.zone2;
-if(v.zone3!=="None") zones+=" , "+v.zone3;
-
 div.innerHTML=`
+
 <strong>${v.name}</strong><br>
 Zones: ${zones}<br>
-${v.timedOut ? "⚠ Timed Out" : "Time Left: "+timeLeft}
+${v.timedOut ? "Timed Out" : getTimeLeft(v.startTime)}
+
 <br>
+
 <button onclick="printReceiptById(${v.id})">Reprint</button>
-${v.timedOut ? `<button class="delete-btn" onclick="deleteVisitor(${v.id})">Delete</button>` : ""}
+
+${v.timedOut ? `<button class="delete-btn" onclick="deleteVisitor(${v.id})">Delete</button>`:""}
+
 `;
 
 container.appendChild(div);
 
 });
-
-saveData();
 
 }
 
@@ -124,55 +143,70 @@ loadVisitors();
 
 }
 
-function getTimeLeft(startTime){
+function getTimeLeft(start){
 
-const remaining=Math.max(TIME_LIMIT-(Date.now()-startTime),0);
+const remaining=Math.max(TIME_LIMIT-(Date.now()-start),0);
 
 const m=Math.floor(remaining/60000);
 const s=Math.floor((remaining%60000)/1000);
 
-return `${m}:${s.toString().padStart(2,"0")}`;
+return `Time Left: ${m}:${s.toString().padStart(2,"0")}`;
 
 }
 
 function printReceipt(visitor){
 
-let zones=visitor.zone1;
+let boothText="";
 
-if(visitor.zone2!=="None") zones+="\n"+visitor.zone2;
-if(visitor.zone3!=="None") zones+="\n"+visitor.zone3;
+visitor.zones.forEach(zone=>{
+
+if(zone!=="None"){
+
+const b=booths[zone];
+
+boothText+=`
+
+<div class="line"></div>
+
+<b>${zone}</b><br>
+
+What it sell:<br>
+${b.sell}<br>
+
+Description:<br>
+${b.desc}<br>
+
+`;
+
+}
+
+});
 
 const receipt=document.getElementById("receiptContent");
 
 receipt.innerHTML=`
 
 <b>CAFEQUEUE</b><br>
-Art Museum Cafe
+Museum Cafe
 
 <div class="line"></div>
 
 Visitor:<br>
-${visitor.name}<br><br>
+${visitor.name}
 
-Zones:<br>
-${zones.replace(/\n/g,"<br>")}<br>
+${boothText}
+
+<div class="line"></div>
 
 Time Limit: 15 Minutes
 
 <div class="line"></div>
 
-Issued:<br>
 ${new Date().toLocaleString()}
-
-<div class="line"></div>
-
-Enjoy Your Visit!
 
 `;
 
-setTimeout(()=>{
-window.print();
-},200);
+setTimeout(()=>window.print(),200);
 
 }
 
@@ -180,29 +214,7 @@ function printReceiptById(id){
 
 const visitor=visitors.find(v=>v.id===id);
 
-if(visitor){
 printReceipt(visitor);
-}
-
-}
-
-function exportCSV(){
-
-let csv="Name,Zone1,Zone2,Zone3,Timed Out\n";
-
-visitors.forEach(v=>{
-csv+=`"${v.name}","${v.zone1}","${v.zone2}","${v.zone3}","${v.timedOut}"\n`;
-});
-
-const blob=new Blob([csv],{type:"text/csv"});
-
-const link=document.createElement("a");
-
-link.href=URL.createObjectURL(blob);
-
-link.download="CafeQueue_Report.csv";
-
-link.click();
 
 }
 
