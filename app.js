@@ -6,7 +6,7 @@ let loggedIn = false;
 
 /* BOOTH DATABASE */
 
-const booths = {
+const booths={
 
 "Cafe Padua":{
 sell:"Foods and drinks",
@@ -63,7 +63,7 @@ document.getElementById("systemArea").classList.remove("hidden");
 loadVisitors();
 
 }else{
-alert("Wrong password");
+alert("Incorrect password");
 }
 
 }
@@ -74,6 +74,11 @@ const name=document.getElementById("name").value.trim();
 const zone1=document.getElementById("zone1").value;
 const zone2=document.getElementById("zone2").value;
 const zone3=document.getElementById("zone3").value;
+
+if(!name){
+alert("Enter visitor name");
+return;
+}
 
 const visitor={
 id:Date.now(),
@@ -154,6 +159,31 @@ return `Time Left: ${m}:${s.toString().padStart(2,"0")}`;
 
 }
 
+/* TEXT WRAP FUNCTION */
+
+function wrapText(text,max=32){
+
+let words=text.split(" ");
+let line="";
+let result="";
+
+words.forEach(word=>{
+
+if((line+word).length>max){
+result+=line+"\n";
+line=word+" ";
+}else{
+line+=word+" ";
+}
+
+});
+
+result+=line;
+
+return result;
+
+}
+
 function printReceipt(visitor){
 
 let boothText="";
@@ -168,13 +198,13 @@ boothText+=`
 
 <div class="line"></div>
 
-<b>${zone}</b><br>
+<b>${zone}</b>
 
-What it sell:<br>
-${b.sell}<br>
+What it sell:
+${wrapText(b.sell)}
 
-Description:<br>
-${b.desc}<br>
+Description:
+${wrapText(b.desc)}
 
 `;
 
@@ -186,13 +216,13 @@ const receipt=document.getElementById("receiptContent");
 
 receipt.innerHTML=`
 
-<b>CAFEQUEUE</b><br>
+<b>CAFEQUEUE</b>
 Museum Cafe
 
 <div class="line"></div>
 
-Visitor:<br>
-${visitor.name}
+Visitor:
+${wrapText(visitor.name)}
 
 ${boothText}
 
@@ -214,7 +244,7 @@ function printReceiptById(id){
 
 const visitor=visitors.find(v=>v.id===id);
 
-printReceipt(visitor);
+if(visitor)printReceipt(visitor);
 
 }
 
