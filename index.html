@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
@@ -53,6 +52,11 @@ background:#444;
 margin-bottom:10px;
 }
 
+.delete-btn{
+background:#b00020;
+margin-left:5px;
+}
+
 .visitor{
 padding:10px;
 margin-top:10px;
@@ -68,7 +72,7 @@ border-left:5px solid red;
 
 .hidden{display:none;}
 
-#line{
+.line{
 border-top:1px dashed black;
 margin:4px 0;
 }
@@ -87,7 +91,7 @@ font-size:11px;
 text-align:center;
 }
 
-/* PRINT SETTINGS */
+/* PRINT */
 
 @media print {
 
@@ -104,20 +108,14 @@ font-family:monospace;
 font-size:11px;
 }
 
-/* hide everything */
-
 body *{
 visibility:hidden;
 }
-
-/* show receipt */
 
 #receiptModal,
 #receiptModal *{
 visibility:visible;
 }
-
-/* move receipt to top */
 
 #receiptModal{
 position:absolute;
@@ -171,8 +169,7 @@ display:none;
 
 <input type="text" id="name" placeholder="Visitor Name">
 
-<select id="zone">
-
+<select id="zone1">
 <option>AADT Photobooth</option>
 <option>Research Showcase</option>
 <option>Robot Showcase</option>
@@ -183,7 +180,34 @@ display:none;
 <option>ABM Booth</option>
 <option>Tables Left</option>
 <option>Tables Right</option>
+</select>
 
+<select id="zone2">
+<option>None</option>
+<option>AADT Photobooth</option>
+<option>Research Showcase</option>
+<option>Robot Showcase</option>
+<option>Art Gallery North</option>
+<option>Art Gallery South</option>
+<option>Booth 1</option>
+<option>Booth 2</option>
+<option>ABM Booth</option>
+<option>Tables Left</option>
+<option>Tables Right</option>
+</select>
+
+<select id="zone3">
+<option>None</option>
+<option>AADT Photobooth</option>
+<option>Research Showcase</option>
+<option>Robot Showcase</option>
+<option>Art Gallery North</option>
+<option>Art Gallery South</option>
+<option>Booth 1</option>
+<option>Booth 2</option>
+<option>ABM Booth</option>
+<option>Tables Left</option>
+<option>Tables Right</option>
 </select>
 
 <button onclick="registerVisitor()">Register & Print Receipt</button>
