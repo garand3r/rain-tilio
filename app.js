@@ -167,7 +167,6 @@ ${zone}
 const receipt=document.getElementById("receiptContent");
 
 receipt.innerHTML=`
-
 <b>CAFEQUEUE</b>
 Museum Cafe
 <div class="line"></div>
@@ -178,7 +177,6 @@ ${boothText}
 Time Limit: 15 Minutes
 <div class="line"></div>
 ${new Date().toLocaleString()}
-
 `;
 
 setTimeout(()=>window.print(),200);
