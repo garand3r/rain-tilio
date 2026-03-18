@@ -120,26 +120,22 @@ return `Time Left: ${m}:${s.toString().padStart(2,"0")}`;
 /* TEXT WRAP */
 
 function wrapText(text,max=32){
-
 let words=text.split(" ");
 let line="";
 let result="";
 
 words.forEach(word=>{
-
 if((line+word).length>max){
-result+=line+"\n";
+result+=line.trim()+"<br>";
 line=word+" ";
 }else{
 line+=word+" ";
 }
-
 });
 
-result+=line;
+result+=line.trim();
 
 return result;
-
 }
 
 /* PRINT RECEIPT (ONLY BOOTH NAMES) */
@@ -149,35 +145,23 @@ function printReceipt(visitor){
 let boothText="";
 
 visitor.zones.forEach(zone=>{
-
 if(zone!=="None"){
-
-boothText+=`
-
-<div class="line"></div>
-
-${zone}
-
-`;
-
+boothText+=`<div class="line"></div>${zone}`;
 }
-
 });
 
 const receipt=document.getElementById("receiptContent");
 
-receipt.innerHTML=`
-<b>CAFEQUEUE</b>
+receipt.innerHTML=
+`<b>CAFEQUEUE</b><br>
 Museum Cafe
 <div class="line"></div>
-Visitor:
-${wrapText(visitor.name)}
+Visitor:<br>${wrapText(visitor.name)}
 ${boothText}
 <div class="line"></div>
 Time Limit: 15 Minutes
 <div class="line"></div>
-${new Date().toLocaleString()}
-`;
+${new Date().toLocaleString()}`;
 
 setTimeout(()=>window.print(),200);
 
