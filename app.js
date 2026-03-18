@@ -8,40 +8,19 @@ let loggedIn = false;
 
 const booths={
 
-"Cafe Padua":{
-sell:"Foods and drinks",
-desc:"Our booth is really amazing and made with love."
-},
-
-"Thrift and Treats":{
-sell:"Foods (snacks)",
-desc:"2020 summer nostalgia mixed with filipino culture."
-},
-
-"Museum Cafe Artspire":{
-sell:"Foods & drinks",
-desc:"Cafe with unique arts."
-},
-
-"AADT - Live photobooth":{
-sell:"Portrait drawing",
-desc:"Our booth captures the artistic essence of AADT."
-},
-
-"Art Gallery":{
-sell:"Art Display",
-desc:"Collection of creative student artworks."
-},
-
-"Research Display":{
-sell:"Student Research",
-desc:"Showcasing innovative research projects."
-},
-
-"Interactive HUB":{
-sell:"Interactive Activities",
-desc:"Fun interactive exhibits for visitors."
-}
+"Cafe Padua",
+  
+"Thrift and Treats",
+  
+"Museum Cafe Artspire",
+  
+"AADT - Live photobooth",
+  
+"Art Gallery",
+  
+"Research Display",
+  
+"Interactive HUB",
 
 };
 
