@@ -4,26 +4,6 @@ const ADMIN_PASSWORD = "cafe123";
 let visitors = JSON.parse(localStorage.getItem("cafequeue_data")) || [];
 let loggedIn = false;
 
-/* BOOTH DATABASE */
-
-const booths={
-
-"Cafe Padua",
-  
-"Thrift and Treats",
-  
-"Museum Cafe Artspire",
-  
-"AADT - Live photobooth",
-  
-"Art Gallery",
-  
-"Research Display",
-  
-"Interactive HUB",
-
-};
-
 function saveData(){
 localStorage.setItem("cafequeue_data",JSON.stringify(visitors));
 }
@@ -80,7 +60,6 @@ loadVisitors();
 function loadVisitors(){
 
 const container=document.getElementById("visitors");
-
 container.innerHTML="";
 
 visitors.forEach(v=>{
@@ -138,7 +117,7 @@ return `Time Left: ${m}:${s.toString().padStart(2,"0")}`;
 
 }
 
-/* TEXT WRAP FUNCTION */
+/* TEXT WRAP */
 
 function wrapText(text,max=32){
 
@@ -163,6 +142,8 @@ return result;
 
 }
 
+/* PRINT RECEIPT (ONLY BOOTH NAMES) */
+
 function printReceipt(visitor){
 
 let boothText="";
@@ -171,19 +152,11 @@ visitor.zones.forEach(zone=>{
 
 if(zone!=="None"){
 
-const b=booths[zone];
-
 boothText+=`
 
 <div class="line"></div>
 
-<b>${zone}</b>
-
-What it sell:
-${wrapText(b.sell)}
-
-Description:
-${wrapText(b.desc)}
+${zone}
 
 `;
 
