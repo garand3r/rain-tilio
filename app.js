@@ -170,20 +170,13 @@ receipt.innerHTML=`
 
 <b>CAFEQUEUE</b>
 Museum Cafe
-
 <div class="line"></div>
-
 Visitor:
 ${wrapText(visitor.name)}
-
 ${boothText}
-
 <div class="line"></div>
-
 Time Limit: 15 Minutes
-
 <div class="line"></div>
-
 ${new Date().toLocaleString()}
 
 `;
