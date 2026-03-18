@@ -79,15 +79,20 @@ display:none;
 
 .receipt{
 width:54mm;
-padding:2mm;
+padding:1.5mm;
 font-family:monospace;
-font-size:11px;
-text-align:left;
+font-size:10px;   /* slightly smaller */
+line-height:1.2;  /* tighter lines */
 
-/* wrap text properly */
 white-space:pre-wrap;
 word-wrap:break-word;
 overflow-wrap:break-word;
+}
+
+/* divider line tighter */
+.line{
+border-top:1px dashed black;
+margin:2px 0;   /* reduced from 4px */
 }
 
 /* PRINT */
