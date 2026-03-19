@@ -1,4 +1,4 @@
-const TIME_LIMIT = 15 * 60 * 1000;
+const TIME_LIMIT = 60 * 60 * 1000;
 const ADMIN_PASSWORD = "yu";
 
 let visitors = JSON.parse(localStorage.getItem("cafequeue_data")) || [];
